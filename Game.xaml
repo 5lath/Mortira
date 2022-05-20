@@ -1,0 +1,196 @@
+﻿<Window x:Class="BigGun.Game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BigGun"
+        mc:Ignorable="d"
+        Title="Game" Height="700" Width="1200" Background="#FFF3DBB8" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="Window_Closing">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFF2B3"/>
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="#FFEAA321" BorderThickness="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFFFF854" Offset="1"/>
+                                <GradientStop Color="#FFF33A31" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="DarkRed"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ArrowButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="100" />
+        </Style>
+        <Style x:Key="ArrowIconButtonStyle" TargetType="Path">
+            <Setter Property="Data" Value="F1 M 287.328,237.333L 319.344,255.818L 319.344,218.849L 287.328,237.333 Z " />
+            <Setter Property="Fill" Value="#FFEAA321" />
+            <Setter Property="Width" Value="40" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Stretch" Value="Fill" />
+            <Setter Property="RenderTransformOrigin" Value="0.5, 0.5" />
+        </Style>
+        <Style x:Key="ArrowLeftIconButtonStyle" TargetType="Path" BasedOn="{StaticResource ArrowIconButtonStyle}">
+        </Style>
+        <Style x:Key="ArrowRightIconButtonStyle" TargetType="Path" BasedOn="{StaticResource ArrowIconButtonStyle}">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="180" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ArrowTopIconButtonStyle" TargetType="Path" BasedOn="{StaticResource ArrowIconButtonStyle}">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="90" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ArrowBottomIconButtonStyle" TargetType="Path" BasedOn="{StaticResource ArrowIconButtonStyle}">
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <RotateTransform Angle="-90" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="1" Grid.Row="1" BorderThickness="3" BorderBrush="#FFEAA321">
+            <Canvas Name="GameField" Grid.Column="1" Grid.Row="1" Background="#FF92C4EF">
+            </Canvas>
+        </Border>
+
+        <Grid Name="Footer" Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+                <RowDefinition />
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Button Name="RestartGame" Content="Начать сначала" Grid.Row="1" Grid.Column="2" Style="{StaticResource ButtonStyle}" Click="RestartGame_Click"/>
+            <Button Name="ReturnToMenu" Content="Назад в настройки" Grid.Row="3" Grid.Column="2" Style="{StaticResource ButtonStyle}" Click="ReturnToMenu_Click" />
+
+            <Grid Name="ShootingPanel" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderThickness="3,3,0,3" BorderBrush="#FFEAA321">
+                    <Grid Name="AngleShootingPanel" DockPanel.Dock="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"  BorderThickness="3" BorderBrush="#FFEAA321">
+                            <Canvas Name="AngleGraphImage" Background="#FFD4FFB1" />
+                        </Border>
+
+                        <Border BorderBrush="#FFEAA321" BorderThickness="3" Grid.Column="3" Grid.Row="1">
+                            <TextBox Name="AngleTextBox" FontSize="28" FontFamily="Comic Sans MS" HorizontalContentAlignment="Center" Padding="0,-3,0,0" KeyDown="AngleTextBox_KeyDown">0</TextBox>
+                        </Border>
+                        <Border BorderBrush="#FFEAA321" BorderThickness="3" Grid.Column="3" Grid.Row="3" Width="56">
+                            <DockPanel Width="55">
+                                <Button x:Name="AngleTriangleButtonLeft" DockPanel.Dock="Left" Style="{StaticResource ArrowButtonStyle}" Height="45" Width="25" Click="AngleTriangleButtonLeft_Click" >
+                                    <Path Style="{StaticResource ArrowLeftIconButtonStyle}" Height="30" Stretch="Fill" Width="13" />
+                                </Button>
+                                <Button x:Name="AngleTriangleButtonRight" DockPanel.Dock="Right" Style="{StaticResource ArrowButtonStyle}" Height="45" Width="25" Click="AngleTriangleButtonRight_Click" >
+                                    <Path Style="{StaticResource ArrowRightIconButtonStyle}" Height="30" Stretch="Fill" Width="13" />
+                                </Button>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                <Button Grid.Column="1" Content="Огонь!" Style="{StaticResource ButtonStyle}" DockPanel.Dock="Left" />
+                <Border Grid.Column="2" BorderThickness="0,3,3,3" BorderBrush="#FFEAA321">
+                    <Grid Name="PowerShootingPanel" DockPanel.Dock="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="1" Grid.Row="1" Grid.RowSpan="3"  BorderThickness="3" BorderBrush="#FFEAA321">
+                            <ProgressBar Name="PowerBar" Background="#FFD4FFB1"  Value="50"/>
+                        </Border>
+                        <Rectangle Grid.Column="2" Grid.Row="1" Stroke="#FFEAA321" StrokeThickness="0,3,3,3" Grid.ColumnSpan="2" Margin="0,34,10,34" Grid.RowSpan="3"/>
+
+                        <Border BorderBrush="#FFEAA321" BorderThickness="3" Grid.Column="4" Grid.Row="1" >
+                            <TextBox Name="PowerTextBox" FontSize="28" FontFamily="Comic Sans MS"  HorizontalContentAlignment="Center" Padding="0,-3,0,0" KeyDown="PowerTextBox_KeyDown" >10</TextBox>
+                        </Border>
+
+                        <Border BorderBrush="#FFEAA321" BorderThickness="3" Grid.Column="4" Grid.Row="3" Width="56">
+                            <DockPanel Width="55">
+                                <Button x:Name="PowerTriangleButtonLeft" DockPanel.Dock="Left" Style="{StaticResource ArrowButtonStyle}" Height="45" Width="25" Click="PowerTriangleButtonLeft_Click" >
+                                    <Path Style="{StaticResource ArrowLeftIconButtonStyle}" Height="30" Stretch="Fill" Width="13" />
+                                </Button>
+                                <Button x:Name="PowerTriangleButtonRight" DockPanel.Dock="Right" Style="{StaticResource ArrowButtonStyle}" Height="45" Width="25" Click="PowerTriangleButtonRight_Click" >
+                                    <Path Style="{StaticResource ArrowRightIconButtonStyle}" Height="30" Stretch="Fill" Width="13" />
+                                </Button>
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

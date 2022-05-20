@@ -24,5 +24,22 @@ namespace BigGun
         {
             InitializeComponent();
         }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            Level_Select ls = new Level_Select(this);
+            this.Hide();
+            ls.Show();
+        }
+
+        private void btnRecords_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

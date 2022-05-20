@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BigGun"
+        mc:Ignorable="d"
         Title="Menu" Height="500" Width="900" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" WindowState="Normal">
 
     <Window.Resources>
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#FFF17A00"/>
-            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontSize" Value="40"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -21,7 +23,15 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Crimson" />
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFFFF854" Offset="1"/>
+                                <GradientStop Color="#FFF33A31" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="DarkRed"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -43,12 +53,12 @@
         </Grid.RowDefinitions>
 
         <Border Grid.RowSpan="7" Background="#FFF17A00"/>
-        <Button Content="Играть" Grid.Row="1" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="Рекорды" Grid.Row="3" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="Выход" Grid.Row="5" Style="{StaticResource ButtonStyle}"/>
+        <Button Name="btnPlay" Content="Играть" Grid.Row="1" Style="{StaticResource ButtonStyle}" Click="btnPlay_Click"/>
+        <Button Name="btnRecords" Content="Рекорды" Grid.Row="3" Style="{StaticResource ButtonStyle}" Click="btnRecords_Click"/>
+        <Button Name="btnExit" Content="Выход" Grid.Row="5" Style="{StaticResource ButtonStyle}" Click="btnExit_Click"/>
         
         <Image Grid.Column="1" Grid.RowSpan="7" Source="Images/mortira.jpg" Stretch="Fill"/>
         
-        <Label Grid.Column="1" Grid.Row="0" FontSize="44" FontFamily="Comic Sans MS" Foreground="#FFF17A00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Мортира</Label>
+        <Label Grid.Column="1" Grid.Row="0" FontSize="60" FontFamily="Comic Sans MS Bold" Foreground="#FFF17A00" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Мортира</Label>
     </Grid>
 </Window>
